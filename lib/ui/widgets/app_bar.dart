@@ -12,14 +12,14 @@ PreferredSizeWidget CustomAppBar(BuildContext context) {
           color: Colors.red,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(Icons.add, color: Colors.white), // Replace with logo
+        child: const Icon(Icons.add, color: Colors.white), // Replace with logo
       ),
     ),
     title: Row(mainAxisAlignment: MainAxisAlignment.center,
       children: [ const SizedBox(width: 86), 
         Container(
           width: 800, // Set fixed width for the search bar
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -29,14 +29,14 @@ PreferredSizeWidget CustomAppBar(BuildContext context) {
               Expanded(
                 child: TextField(
                   controller: search,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Search "iPhone"',
                     border: InputBorder.none,
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
                 ),
               ),
-              Icon(Icons.search, color: Colors.red),
+              const Icon(Icons.search, color: Colors.red),
             ],
           ),
         ),
@@ -92,13 +92,24 @@ Widget _buildOption(String title) {
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),const SizedBox(width: 50,)
+, const Text(
+            '|',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),        ],
       ),
     ),
   );

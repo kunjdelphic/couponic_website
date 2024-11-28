@@ -1,4 +1,4 @@
-import 'package:couponic_website/homepage.dart';
+import 'package:couponic_website/ui/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
