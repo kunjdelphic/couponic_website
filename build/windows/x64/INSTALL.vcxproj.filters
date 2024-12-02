@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Kunj gupta\couponic_website\build\windows\x64\CMakeFiles\0bffe1f4cd639f95bcf4fe459b207a15\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{EF4B9FF4-902E-38F8-8BBD-56BE871B69F8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -3,6 +3,7 @@ import 'package:couponic_website/ui/homepage/widget/card.dart';
 import 'package:couponic_website/ui/homepage/widget/corousel_slider.dart';
 import 'package:couponic_website/ui/homepage/widget/dummy.dart';
 import 'package:couponic_website/ui/homepage/widget/flip_card.dart';
+import 'package:couponic_website/ui/homepage/widget/high_cashback.dart';
 import 'package:couponic_website/ui/homepage/widget/offer_login_step.dart';
 import 'package:couponic_website/ui/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
@@ -439,8 +440,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
-                const SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               const Padding(
@@ -637,144 +637,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget cashback(BuildContext context) {
-    final stores = [
-      {"name": "Shyaway", "cashback": "35%", "image": "assets/shyaway.png"},
-      {
-        "name": "Hostinger",
-        "cashback": "41.3%",
-        "image": "assets/hostinger.png"
-      },
-      {"name": "Swisse", "cashback": "21%", "image": "assets/swisse.png"},
-      {
-        "name": "Clove Oral Care",
-        "cashback": "67.5%",
-        "image": "assets/clove.png"
-      },
-      {"name": "Shyaway", "cashback": "35%", "image": "assets/shyaway.png"},
-      {
-        "name": "Hostinger",
-        "cashback": "41.3%",
-        "image": "assets/hostinger.png"
-      },
-      {"name": "Swisse", "cashback": "21%", "image": "assets/swisse.png"},
-      {
-        "name": "Clove Oral Care",
-        "cashback": "67.5%",
-        "image": "assets/clove.png"
-      },
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            "High Cashback Stores",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
-        SizedBox(
-          height: 200,
-          child: Stack(
-            children: [
-              ListView.builder(
-                controller: _scrollController,
-                scrollDirection: Axis.horizontal,
-                itemCount: stores.length,
-                itemBuilder: (context, index) {
-                  final store = stores[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            store["image"]!,
-                            width: 100,
-                            height: 50,
-                            fit: BoxFit.contain,
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            store["name"]!,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                              vertical: 4.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green.shade100,
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.local_offer,
-                                    size: 14, color: Colors.green),
-                                const SizedBox(width: 4),
-                                Text(
-                                  "Flat ${store['cashback']} Cashback",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green.shade700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // Forward Scroll Button
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_forward, color: Colors.black54),
-                  onPressed: scrollForward,
-                ),
-              ),
-              // Backward Scroll Button
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black54),
-                    onPressed: scrollBack),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: TextButton(
-            onPressed: () {
-              // Handle "Show More" action
-            },
-            child: const Text(
-              "Show More",
-              style: TextStyle(color: Colors.blue),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }
