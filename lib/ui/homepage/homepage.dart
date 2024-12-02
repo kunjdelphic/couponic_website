@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:couponic_website/ui/homepage/widget/card.dart';
+import 'package:couponic_website/ui/homepage/widget/corousel_slider.dart';
 import 'package:couponic_website/ui/homepage/widget/dummy.dart';
 import 'package:couponic_website/ui/homepage/widget/flip_card.dart';
+import 'package:couponic_website/ui/homepage/widget/offer_login_step.dart';
 import 'package:couponic_website/ui/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -44,30 +46,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     },
   ];
 
-  final List<Map<String, dynamic>> steps = [
-    {
-      'icon': Icons.login_outlined,
-      'title': 'Log In & Shop',
-      'description': 'Click your favorite coupon & Shop',
-    },
-    {
-      'icon': Icons.wallet,
-      'title': 'Cashback Earned',
-      'description': 'Cashback gets added to your CouponDunia wallet',
-    },
-    {
-      'icon': Icons.currency_rupee,
-      'title': 'Withdraw Cashback',
-      'description': 'To your bank account, or as a voucher, recharge',
-    },
-  ];
-
   late AnimationController _controller;
   bool isFrontVisible = true;
   late List<AnimationController> _controllers;
   late List<Animation<double>> _animations;
   late List<bool> _flippedStates;
-  late  ScrollController _scrollController; // For scroll control
+  late ScrollController _scrollController; // For scroll control
   int cardCount = 10;
   // Tracking the flip state for each card in the grid
   List<bool> flipStates = List.generate(6, (index) => true);
@@ -176,6 +160,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  bool isHovered = false;
+
   int selected = 0;
   @override
   Widget build(BuildContext context) {
@@ -184,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       appBar: CustomAppBar(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
+          padding: const EdgeInsets.only(left: 50.0, right: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -203,13 +189,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       },
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
-                        return _buildOfferCard(offers[index]);
+                        return buildOfferCard(index);
                       },
                     ),
                     // Left and Right Arrows
                     if (_currentIndex > 0)
                       Positioned(
-                        left: 18,
+                        left: 38,
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -243,165 +229,98 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(
+                height: 20,
+              ),
+              loginOffer(),
+              const SizedBox(
                 height: 30,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Three Steps To Save With Coupon",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+              Container(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 178, 206, 230),
+                    borderRadius: BorderRadius.circular(20)),
+                height: 400,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Get Winter Ready',
+                        style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: steps.asMap().entries.map((entry) {
-                        int index = entry.key;
-                        Map<String, dynamic> step = entry.value;
-                        return Center(
-                          child: Stack(children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.grey)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(14.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 32,
-                                        backgroundColor:
-                                            Colors.greenAccent.withOpacity(0.2),
-                                        child: Icon(
-                                          step['icon'],
-                                          color: Colors.redAccent,
-                                          size: 28,
+                      SizedBox(
+                        height: 300,
+                        child: Row(
+                          children: [
+                            // Backward Scroll Icon
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back),
+                              onPressed: () => scrollBack(),
+                            ),
+                            // Card List
+                            Expanded(
+                              child: GestureDetector(
+                                onHorizontalDragUpdate: (details) {
+                                  _scrollController.jumpTo(
+                                    _scrollController.offset - details.delta.dx,
+                                  );
+                                },
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  controller: _scrollController,
+                                  itemCount: cardCount,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: MouseRegion(
+                                        onEnter: (_) => flipCard(index, true),
+                                        onExit: (_) => flipCard(index, false),
+                                        child: AnimatedBuilder(
+                                          animation: _animations[index],
+                                          builder: (context, child) {
+                                            final angle =
+                                                _animations[index].value *
+                                                    3.14159;
+                                            return Transform(
+                                              transform: Matrix4.identity()
+                                                ..setEntry(3, 2, 0.001)
+                                                ..rotateY(angle),
+                                              alignment: Alignment.center,
+                                              child: _animations[index].value <
+                                                      0.5
+                                                  ? buildFrontCard()
+                                                  : Transform(
+                                                      transform:
+                                                          Matrix4.identity()
+                                                            ..rotateY(3.14159),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: buildBackCard(),
+                                                    ),
+                                            );
+                                          },
                                         ),
                                       ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            step['title']!,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            step['description']!,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[700],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 16),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.purple[100],
-                              radius: 12,
-                              child: Text(
-                                "${index + 1}",
-                                style: const TextStyle(
-                                  color: Colors.purple,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ]),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 300,
-                child: Row(
-                  children: [
-                    // Backward Scroll Icon
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => scrollBack(),
-                    ),
-                    // Card List
-                    Expanded(
-                      child: GestureDetector(
-                        onHorizontalDragUpdate: (details) {
-                          _scrollController.jumpTo(
-                            _scrollController.offset - details.delta.dx,
-                          );
-                        },
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          controller: _scrollController,
-                          itemCount: cardCount,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: MouseRegion(
-                                onEnter: (_) => flipCard(index, true),
-                                onExit: (_) => flipCard(index, false),
-                                child: AnimatedBuilder(
-                                  animation: _animations[index],
-                                  builder: (context, child) {
-                                    final angle =
-                                        _animations[index].value * 3.14159;
-                                    return Transform(
-                                      transform: Matrix4.identity()
-                                        ..setEntry(3, 2, 0.001)
-                                        ..rotateY(angle),
-                                      alignment: Alignment.center,
-                                      child: _animations[index].value < 0.5
-                                          ? buildFrontCard()
-                                          : Transform(
-                                              transform: Matrix4.identity()
-                                                ..rotateY(3.14159),
-                                              alignment: Alignment.center,
-                                              child: buildBackCard(),
-                                            ),
                                     );
                                   },
                                 ),
                               ),
-                            );
-                          },
+                            ),
+                            // Forward Scroll Icon
+                            IconButton(
+                              icon: const Icon(Icons.arrow_forward),
+                              onPressed: () => scrollForward(),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    // Forward Scroll Icon
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward),
-                      onPressed: () => scrollForward(),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -421,28 +340,108 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 1000,
-                height: 550,
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 400,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.blue.withOpacity(0.5),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4, // Number of cards in a row
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
-                    itemCount: 8, // Total cards
-                    itemBuilder: (context, index) {
-                      return HoverCard(
-                        imageUrl: getImageUrl(index),
-                        title: getTitle(index),
-                        rewardText: getRewardText(index),
-                      );
-                    },
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      MouseRegion(
+                        onEnter: (_) {
+                          setState(() {
+                            isHovered = true;
+                          });
+                        },
+                        onExit: (_) {
+                          setState(() {
+                            isHovered = false;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          width: 240,
+                          height: 350,
+                          duration: const Duration(milliseconds: 300),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: isHovered ? Colors.blue[50] : Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: isHovered
+                                ? [
+                                    BoxShadow(
+                                        color: Colors.blue.withOpacity(0.5),
+                                        blurRadius: 10)
+                                  ]
+                                : [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.2),
+                                        blurRadius: 5)
+                                  ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                getImageUrl(getTitle(0).toLowerCase()),
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.contain,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                getTitle(0),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              const SizedBox(height: 8),
+                              if (isHovered)
+                                Text(
+                                  getRewardText(0),
+                                  style: const TextStyle(
+                                      color: Colors.green, fontSize: 14),
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 900,
+                        height: 610,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5, // Number of cards in a row
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                            ),
+                            itemCount: 8, // Total cards
+                            itemBuilder: (context, index) {
+                              return HoverCard(
+                                imageUrl:
+                                    getImageUrl(getTitle(index).toLowerCase()),
+                                title: getTitle(index),
+                                rewardText: getRewardText(index),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+
+                const SizedBox(
+                height: 40,
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 100.0),
@@ -461,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .8,
@@ -511,7 +510,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             border: Border.all(color: Colors.red)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [const SizedBox(width: 20,),
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
                             // Offers Header
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -589,7 +591,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 itemBuilder: (context, index) {
                                   final store = stores[index];
                                   return Card(
-                                  
                                     child: SizedBox(
                                       width: 150,
                                       child: Column(
@@ -632,81 +633,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildOfferCard(Map<String, String> offer) {
-    return Container(
-      width: 300,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
-            child: Image.network(
-              offer['imageUrl']!,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  offer['title']!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                // Subtitle
-                Text(
-                  offer['subtitle']!,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                ),
-                const SizedBox(height: 8),
-                // Cashback Info
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[100],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    offer['cashback']!,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue[800],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HoverCard extends StatefulWidget {
@@ -34,6 +33,8 @@ class _HoverCardState extends State<HoverCard> {
         });
       },
       child: AnimatedContainer(
+        width: 100,
+        height: 100,
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -48,16 +49,15 @@ class _HoverCardState extends State<HoverCard> {
           children: [
             Image.network(
               widget.imageUrl,
-              height: 40,
-              width: 40,
+             
+              width: 90,
               fit: BoxFit.contain,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 5),
             Text(
               widget.title,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            const SizedBox(height: 8),
             if (isHovered)
               Text(
                 widget.rewardText,
