@@ -1,6 +1,6 @@
 // Dummy data for cards
 String getImageUrl(path) {
-  String urls = 'assets/images/${path}.png';
+  String urls = 'assets/images/$path.png';
 
   return urls;
 }

@@ -49,7 +49,7 @@ class _HoverCardState extends State<HoverCard> {
           children: [
             Image.network(
               widget.imageUrl,
-             
+              height: 40,
               width: 90,
               fit: BoxFit.contain,
             ),

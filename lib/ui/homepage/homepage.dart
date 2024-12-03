@@ -390,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             children: [
                               Image.network(
                                 getImageUrl(getTitle(0).toLowerCase()),
-                                height: 120,
+                                height: 100,
                                 width: 120,
                                 fit: BoxFit.contain,
                               ),
