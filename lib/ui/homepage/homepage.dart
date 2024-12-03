@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   controller: _scrollController,
-                                  itemCount: cardCount,
+                                  itemCount: 5,
                                   itemBuilder: (context, index) {
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               alignment: Alignment.center,
                                               child: _animations[index].value <
                                                       0.5
-                                                  ? buildFrontCard()
+                                                  ? buildFrontCard(index)
                                                   : Transform(
                                                       transform:
                                                           Matrix4.identity()
@@ -392,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 getImageUrl(getTitle(0).toLowerCase()),
                                 height: 100,
                                 width: 120,
-                                fit: BoxFit.contain,
+                              
                               ),
                               const SizedBox(height: 12),
                               Text(

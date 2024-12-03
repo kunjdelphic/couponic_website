@@ -51,7 +51,6 @@ class _HoverCardState extends State<HoverCard> {
               widget.imageUrl,
               height: 40,
               width: 90,
-              fit: BoxFit.contain,
             ),
             const SizedBox(height: 5),
             Text(
