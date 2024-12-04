@@ -71,7 +71,7 @@ Widget buildFrontCard(int index) {
             borderRadius: BorderRadius.circular(8),
             child: Container(
               color: Colors.grey[200],
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               child: Center(
                 child: Image.asset(
                     'assets/images/${product['brand']!.toLowerCase()}.png', // Replace with your image URL
@@ -82,10 +82,10 @@ Widget buildFrontCard(int index) {
           ),
           Row(
             children: [
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 product['product'].toString(),
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -97,14 +97,14 @@ Widget buildFrontCard(int index) {
                   color: Colors.green[100],
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(
                   children: [
-                    Icon(Icons.percent, color: Colors.red, size: 16),
-                    SizedBox(width: 4),
+                    const Icon(Icons.percent, color: Colors.red, size: 16),
+                    const SizedBox(width: 4),
                     Text(
                       product['discount'].toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.green,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -115,20 +115,20 @@ Widget buildFrontCard(int index) {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           // Price Section
           Row(
             children: [
               Text(
                 product['price'].toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 8),
-              Text(
+              const SizedBox(width: 8),
+              const Text(
                 '₹650',
                 style: TextStyle(
                   fontSize: 16,
@@ -138,7 +138,7 @@ Widget buildFrontCard(int index) {
               ),
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           // Footer Text
           Text(
             '*After Discount & Cashback',

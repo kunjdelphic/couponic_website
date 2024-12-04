@@ -107,7 +107,7 @@ Widget cashback(BuildContext context) {
               bottom: 0,
               child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),color: Colors.white,),
        
-                child: Center(
+                child: const Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward_ios, color: Colors.black54),
                     onPressed: scrollForward,
@@ -121,8 +121,8 @@ Widget cashback(BuildContext context) {
               top: 0,
               bottom: 0,
               child: Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),color:Colors.white, ),
-                child: Center(
-                  child: const IconButton(
+                child: const Center(
+                  child: IconButton(
                       icon: Icon(Icons.arrow_back_ios, color: Colors.black54),
                       onPressed: scrollBack),
                 ),

@@ -56,6 +56,18 @@ final List<Map<String, String>> offers_card = [
     "logo": "https://via.placeholder.com/50",
     "title": "Black Friday Sale",
     "cashback": "Flat 7.5% Cashback",
+  },{
+    "logo": "https://via.placeholder.com/50",
+    "title": "Black Friday Sale",
+    "cashback": "Flat 7.5% Cashback",
+  },{
+    "logo": "https://via.placeholder.com/50",
+    "title": "Black Friday Sale",
+    "cashback": "Flat 7.5% Cashback",
+  },{
+    "logo": "https://via.placeholder.com/50",
+    "title": "Black Friday Sale",
+    "cashback": "Flat 7.5% Cashback",
   },
   {
     "logo": "https://via.placeholder.com/50",

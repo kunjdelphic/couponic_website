@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:couponic_website/ui/homepage/widget/card.dart';
+import 'package:couponic_website/ui/homepage/widget/category_card.dart';
 import 'package:couponic_website/ui/homepage/widget/corousel_slider.dart';
 import 'package:couponic_website/ui/homepage/widget/dummy.dart';
 import 'package:couponic_website/ui/homepage/widget/flip_card.dart';
@@ -159,6 +160,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
+  }
+
+  ScrollController _scrollControllerCat = ScrollController();
+  void scrollForwardCat() {
+    if (_scrollControllerCat.hasClients) {
+      _scrollControllerCat.animateTo(
+        _scrollControllerCat.offset + 200,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+// Function to scroll backward
+  void scrollBackCat() {
+    if (_scrollControllerCat.hasClients) {
+      _scrollControllerCat.animateTo(
+        _scrollControllerCat.offset - 200,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   bool isHovered = false;
@@ -392,7 +415,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 getImageUrl(getTitle(0).toLowerCase()),
                                 height: 100,
                                 width: 120,
-                              
                               ),
                               const SizedBox(height: 12),
                               Text(
@@ -464,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .8,
-                height: 400,
+                height: 500,
                 child: Row(
                   children: [
                     // Categories Sidebar
@@ -530,50 +552,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                             // Offers Carousel
-                            SizedBox(
-                              height: 150,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: offers_card.length,
-                                itemBuilder: (context, index) {
-                                  final offer = offers_card[index];
-                                  return Card(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: SizedBox(
-                                      width: 200,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(offer['logo']!,
-                                              height: 40),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            offer['title']!,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          const SizedBox(height: 8),
-                                          if (offer['cashback']!.isNotEmpty)
-                                            Text(
-                                              offer['cashback']!,
-                                              style: const TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize: 12),
-                                            ),
-                                          const SizedBox(height: 8),
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            child: const Text("Get Deal"),
-                                          ),
-                                        ],
+                            Stack(
+                              children: [
+                                SizedBox(
+                                  height: 250,
+                                  child: ListView.builder(controller: _scrollControllerCat,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: offers_card.length,
+                                    itemBuilder: (context, index) {
+                                      final offer = offers_card[index];
+                                      return categoryCard(index, offer);
+                                    },
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_forward_ios,
+                                            color: Colors.black54),
+                                        onPressed: scrollForwardCat,
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                                // Backward Scroll Button
+                                Positioned(
+                                  left: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                          icon: Icon(Icons.arrow_back_ios,
+                                              color: Colors.black54),
+                                          onPressed: scrollBackCat),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 16),
 
@@ -636,5 +664,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
-
 }
