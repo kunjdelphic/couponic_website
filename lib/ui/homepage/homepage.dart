@@ -270,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Get Winter Ready',
                         style: TextStyle(
                             fontSize: 19,
@@ -350,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               const SizedBox(
                 height: 40,
               ),
-              const Padding(
+        /*      const Padding(
                 padding: EdgeInsets.only(left: 100.0),
                 child: Row(
                   children: [
@@ -363,8 +363,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-              ),
-              Container(
+              ),*/
+            /*  Container(
                 width: MediaQuery.of(context).size.width,
                 height: 400,
                 decoration: BoxDecoration(
@@ -464,7 +464,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               const SizedBox(
                 height: 40,
-              ),
+              ),*/
               const Padding(
                 padding: EdgeInsets.only(left: 100.0),
                 child: Row(
@@ -486,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .8,
-                height: 500,
+                height: 550,
                 child: Row(
                   children: [
                     // Categories Sidebar
@@ -495,8 +495,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       child: Container(
                         width: 200,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.red)),
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: Colors.grey.shade300)),
                         child: ListView.builder(
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
@@ -509,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               // Replace with icons
                               title: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(categories[index]),
+                                child: Text(categories[index],style:TextStyle(fontSize: 20,fontWeight: FontWeight.w500,)),
                               ),
                               selected: selected ==
                                   index, // Mark the first category as selected
@@ -528,126 +528,145 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       flex: 2,
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.red)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            // Offers Header
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              // Offers Header
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Offers",
+                                        style: TextStyle(fontSize: 18)),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: const Text("Show More"))
+                                  ],
+                                ),
+                              ),
+                              // Offers Carousel
+                              Stack(
                                 children: [
-                                  const Text("Offers",
-                                      style: TextStyle(fontSize: 18)),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: const Text("Show More"))
+                                  SizedBox(
+                                    height: 250,
+                                    child: ListView.builder(
+                                      controller: _scrollControllerCat,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: offers_card.length,
+                                      itemBuilder: (context, index) {
+                                        final offer = offers_card[index];
+                                        return categoryCard(index, offer);
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          icon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black54),
+                                          onPressed: scrollForwardCat,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Backward Scroll Button
+                                  Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                            icon: const Icon(
+                                                Icons.arrow_back_ios,
+                                                color: Colors.black54),
+                                            onPressed: scrollBackCat),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                            // Offers Carousel
-                            Stack(
-                              children: [
-                                SizedBox(
-                                  height: 250,
-                                  child: ListView.builder(controller: _scrollControllerCat,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: offers_card.length,
-                                    itemBuilder: (context, index) {
-                                      final offer = offers_card[index];
-                                      return categoryCard(index, offer);
-                                    },
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: Colors.white,
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        icon: Icon(Icons.arrow_forward_ios,
-                                            color: Colors.black54),
-                                        onPressed: scrollForwardCat,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Backward Scroll Button
-                                Positioned(
-                                  left: 0,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: Colors.white,
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                          icon: Icon(Icons.arrow_back_ios,
-                                              color: Colors.black54),
-                                          onPressed: scrollBackCat),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
+                              const SizedBox(height: 16),
 
-                            // Stores Section
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text("Stores",
-                                  style: TextStyle(fontSize: 18)),
-                            ),
-                            SizedBox(
-                              height: 100,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: stores.length,
-                                itemBuilder: (context, index) {
-                                  final store = stores[index];
-                                  return Card(
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(store['logo']!,
-                                              height: 30),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            store['offers']!,
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            store['cashback']!,
-                                            style: const TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 10),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
+                              // Stores Section
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text("Stores",
+                                    style: TextStyle(fontSize: 18)),
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                height: 150,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: stores.length,
+                                  itemBuilder: (context, index) {
+                                    final store = stores[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        color: Colors.white,
+                                        elevation: 3,
+                                        child: SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const SizedBox(height: 8),
+                                              Row(children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Image.asset(
+                                                      'assets/images/${getTitle(index).toLowerCase()}.png',
+                                                      height: 25),
+                                                ),
+                                                Text(
+                                                  store['offers']!,
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ),
+                                              ]),
+                                              Text(
+                                                store['cashback']!,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

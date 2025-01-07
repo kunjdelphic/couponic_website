@@ -79,9 +79,7 @@ PreferredSizeWidget CustomAppBar(BuildContext context) {
               width: 100,
             ),
             _buildOption('Categories'),const Text('|',style: const TextStyle(color: Colors.white54,fontSize: 29),),
-            _buildOption('Top Stores'),const Text('|',style: TextStyle(color: Colors.white54,fontSize: 29),),
             _buildOption('Best Offers'),const Text('|',style: TextStyle(color: Colors.white54,fontSize: 29),),
-            _buildOption('Collections'),const Text('|',style: TextStyle(color: Colors.white54,fontSize: 29),),
             _buildOption('Share & Earn')
           ],
         ),
